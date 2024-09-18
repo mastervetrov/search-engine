@@ -42,7 +42,7 @@ public class PageConnector {
     private void randomSleepThread() {
         if (IndexingServiceImpl.isRunning) {
             Random random = new Random();
-            int sleepTime = jsoupProperties.getSleepPageConnectorBasicVolume() + random.nextInt(jsoupProperties.getSleepPageConnectorAdditionalVolume());
+            int sleepTime = jsoupProperties.getSleepPageConnectorBasicVolume() + random.nextInt(jsoupProperties.getSleepPageConnectorAdditionalVolumeRandomTo());
 
             try {
                 Thread.sleep(sleepTime);
