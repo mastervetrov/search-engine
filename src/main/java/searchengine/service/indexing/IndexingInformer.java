@@ -18,7 +18,6 @@ import java.util.*;
 public class IndexingInformer {
     private List<IndexingInformer> childTaskInformers = new ArrayList<>();
     private HashSet<String> processedUrls = new HashSet<>();
-    private HashSet<String> lemmaProcessedHashSet = new HashSet<>();
     private IndexingInformer parentTaskInformer;
     private String domain;
     private SiteEntity siteEntity;
@@ -34,10 +33,12 @@ public class IndexingInformer {
         this.domain = parentTaskInformer.getDomain();
     }
 
-    public void addChildSite(String url) {
+    public void addChildTaskInformer(String url) {
         PageEntity newPageEntity = new PageEntity();
         newPageEntity.setPath(url);
-        this.childTaskInformers.add(new IndexingInformer(newPageEntity, this));
+        IndexingInformer informer = new IndexingInformer(newPageEntity, this);
+        informer.setProcessedUrls(this.getProcessedUrls());
+        this.childTaskInformers.add(informer);
     }
 
 }

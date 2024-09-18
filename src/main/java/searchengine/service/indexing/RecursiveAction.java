@@ -26,7 +26,6 @@ public class RecursiveAction extends java.util.concurrent.RecursiveAction {
     private PageEntity pageEntity;
     private SiteEntity siteEntity;
     private HashSet<String> processedUrls;
-    private HashSet<String> lemmaProcessedHashSet;
 
     public RecursiveAction(IndexingProcessor indexingProcessor, LemmaProcessor lemmaProcessor, PageConnector pageConnector, IndexingInformer informer) {
         this.indexingProcessor = indexingProcessor;
@@ -38,8 +37,7 @@ public class RecursiveAction extends java.util.concurrent.RecursiveAction {
 
         siteEntity = informer.getSiteEntity();
         pageEntity = informer.getPageEntity();
-        processedUrls = new HashSet<>();
-        lemmaProcessedHashSet = new HashSet<>();
+        processedUrls = informer.getProcessedUrls();
     }
 
     @Override
@@ -131,8 +129,9 @@ public class RecursiveAction extends java.util.concurrent.RecursiveAction {
             if (processedUrls.contains(newUrl)) {
                 continue;
             }
-            informer.addChildSite(newUrl);
+            informer.addChildTaskInformer(newUrl);
             processedUrls.add(newUrl);
+            processedUrls.add(newUrl + "/");
         }
     }
 
@@ -150,8 +149,6 @@ public class RecursiveAction extends java.util.concurrent.RecursiveAction {
     private List<RecursiveAction> createNewActions() {
         List<RecursiveAction> newActions = new ArrayList<>();
         for (IndexingInformer childTaskInformer : informer.getChildTaskInformers()) {
-            childTaskInformer.setLemmaProcessedHashSet(lemmaProcessedHashSet);
-            childTaskInformer.setProcessedUrls(processedUrls);
             if (childTaskInformer.getCurrentLevel() <= 10) {
                 RecursiveAction newAction = new RecursiveAction(indexingProcessor, lemmaProcessor, pageConnector, childTaskInformer);
                 newActions.add(newAction);
