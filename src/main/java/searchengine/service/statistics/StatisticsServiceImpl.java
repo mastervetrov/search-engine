@@ -27,18 +27,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class StatisticsServiceImpl implements StatisticsService {
-
     private final SitesList sites;
-    @Autowired
-    private SiteRepository siteJpaRepository;
-    @Autowired
-    private PageService pageService;
-    @Autowired
-    private PageRepository pageJpaRepository;
-    @Autowired
-    private LemmaService lemmaService;
-    @Autowired
-    private LemmaRepository lemmaJpaRepository;
+    private final SiteRepository siteJpaRepository;
+    private final PageService pageService;
+    private final PageRepository pageJpaRepository;
+    private final LemmaService lemmaService;
+    private final LemmaRepository lemmaJpaRepository;
 
     @Override
     public StatisticsResponse getStatistics() {

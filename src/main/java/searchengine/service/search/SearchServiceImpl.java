@@ -1,10 +1,10 @@
 package searchengine.service.search;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import searchengine.dto.search.*;
 import searchengine.model.IndexEntity;
@@ -18,21 +18,13 @@ import java.util.*;
 @Service
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService {
     private final SiteFinder siteFinder;
     private final PageFinder pageFinder;
     private final LemmaFinder lemmaFinder;
     private final IndexFinder indexFinder;
     private final SnippetGenerator snippetGenerator;
-
-    @Autowired
-    public SearchServiceImpl(SiteFinder siteFinder, PageFinder pageFinder, LemmaFinder lemmaFinder, IndexFinder indexFinder, SnippetGenerator snippetGenerator) {
-        this.siteFinder = siteFinder;
-        this.pageFinder = pageFinder;
-        this.lemmaFinder = lemmaFinder;
-        this.indexFinder = indexFinder;
-        this.snippetGenerator = snippetGenerator;
-    }
 
     @Override
     public SearchResponse search(String query, String url, Integer offset, Integer limit) {

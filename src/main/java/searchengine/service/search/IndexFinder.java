@@ -1,6 +1,6 @@
 package searchengine.service.search;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import searchengine.dto.search.SearchPage;
 import searchengine.dto.search.SearchUnit;
@@ -14,14 +14,9 @@ import java.util.Comparator;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class IndexFinder {
     private final IndexRepository indexJpaRepository;
-
-    @Autowired
-    public IndexFinder(IndexRepository indexJpaRepository) {
-        this.indexJpaRepository = indexJpaRepository;
-    }
-
 
     public List<IndexEntity> findValidIndexesForPageEntity(List<IndexEntity> indexEntities, PageEntity pageEntity, SearchPage searchPage) {
         List<IndexEntity> validIndexEntity = new ArrayList<>();
@@ -40,7 +35,6 @@ public class IndexFinder {
         }
         List<Integer> pagesIds = getPagesIds(pageEntityList);
         List<Integer> lemmasIds = getLemmasIds(allLemmas);
-
         return indexJpaRepository.findByPageIdInAndLemmaIdIn(pagesIds, lemmasIds);
     }
 

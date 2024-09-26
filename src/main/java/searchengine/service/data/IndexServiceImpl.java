@@ -1,6 +1,6 @@
 package searchengine.service.data;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import searchengine.dto.data.IndexDto;
 import searchengine.dto.data.LemmaDto;
@@ -8,23 +8,16 @@ import searchengine.dto.data.PageDto;
 import searchengine.model.IndexEntity;
 import searchengine.model.LemmaEntity;
 import searchengine.model.PageEntity;
-import searchengine.model.SiteEntity;
 import searchengine.repository.IndexRepository;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class IndexServiceImpl implements IndexService {
     private final IndexRepository indexJpaRepository;
     private final PageService pageService;
     private final LemmaService lemmaService;
-
-    @Autowired
-    public IndexServiceImpl(IndexRepository indexJpaRepository, PageService pageService, LemmaService lemmaService) {
-        this.indexJpaRepository = indexJpaRepository;
-        this.pageService = pageService;
-        this.lemmaService = lemmaService;
-    }
 
     @Override
     public void save(IndexEntity indexEntity) {

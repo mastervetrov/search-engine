@@ -1,5 +1,6 @@
 package searchengine.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,20 +12,15 @@ import searchengine.service.statistics.StatisticsService;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class ApiController {
     private final StatisticsService statisticsService;
     private final IndexingService indexingService;
     private final SearchService searchService;
-    private final int OFFSET_DEFAULT = 0;
-    private final int OFFSET_MIN = 0;
-    private final int LIMIT_DEFAULT = 20;
-    private final int LIMIT_MIN = 1;
-
-    public  ApiController(StatisticsService statisticsService, IndexingService indexingService, SearchService searchService) {
-        this.statisticsService = statisticsService;
-        this.indexingService = indexingService;
-        this.searchService = searchService;
-    }
+    private static final int OFFSET_DEFAULT = 0;
+    private static final int OFFSET_MIN = 0;
+    private static final int LIMIT_DEFAULT = 20;
+    private static final int LIMIT_MIN = 1;
 
     /**
      * Getting brief summary of indexed sites.

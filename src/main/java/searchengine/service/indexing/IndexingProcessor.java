@@ -1,6 +1,6 @@
 package searchengine.service.indexing;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import searchengine.model.*;
 import searchengine.service.data.*;
@@ -10,15 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class IndexingProcessor {
-    @Autowired
-    private SiteService siteService;
-    @Autowired
-    private PageService pageService;
-    @Autowired
-    private LemmaService lemmaService;
-    @Autowired
-    private IndexService indexService;
+    private final SiteService siteService;
+    private final PageService pageService;
+    private final LemmaService lemmaService;
+    private final IndexService indexService;
 
     public void processing(HashMap<String, Integer> lemmasAndRankHashMapNew, SiteEntity siteEntity, PageEntity pageEntity) {
         siteEntity.setStatus(Status.INDEXING);

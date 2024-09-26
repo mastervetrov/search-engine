@@ -1,6 +1,6 @@
 package searchengine.service.data;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import searchengine.dto.data.SiteDto;
 import searchengine.model.SiteEntity;
@@ -9,13 +9,9 @@ import searchengine.repository.SiteRepository;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SiteServiceImpl implements SiteService{
     private final SiteRepository siteJpaRepository;
-
-    @Autowired
-    public SiteServiceImpl(SiteRepository siteJpaRepository) {
-        this.siteJpaRepository = siteJpaRepository;
-    }
 
     @Override
     public void save(SiteEntity siteEntity) {

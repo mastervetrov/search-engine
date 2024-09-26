@@ -1,9 +1,9 @@
 package searchengine.service.indexing;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.nodes.Document;
-import org.springframework.beans.factory.annotation.Autowired;
 import searchengine.model.PageEntity;
 import searchengine.model.SiteEntity;
 import searchengine.service.text.LemmaProcessor;
@@ -11,6 +11,7 @@ import searchengine.service.text.LemmaProcessor;
 import java.util.HashMap;
 
 @Slf4j
+@RequiredArgsConstructor
 public class SimpleAction {
     private static final Integer OK = 200;
     private final IndexingProcessor indexingProcessor;
@@ -18,15 +19,6 @@ public class SimpleAction {
     private final LemmaProcessor lemmaProcessor;
     private final PageEntity pageEntity;
     private final SiteEntity siteEntity;
-
-    @Autowired
-    public SimpleAction(IndexingProcessor indexingProcessor, PageConnector connector, LemmaProcessor lemmaProcessor, PageEntity pageEntity, SiteEntity siteEntity) {
-        this.indexingProcessor = indexingProcessor;
-        this.connector = connector;
-        this.lemmaProcessor = lemmaProcessor;
-        this.pageEntity = pageEntity;
-        this.siteEntity = siteEntity;
-    }
 
     protected boolean compute() {
         String urlLeftPart = siteEntity.getUrl();

@@ -1,7 +1,7 @@
 package searchengine.service.indexing;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import searchengine.config.JsoupProperties;
@@ -20,19 +20,14 @@ import java.util.concurrent.ForkJoinPool;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class IndexingManagerImpl implements IndexingManager {
-    @Autowired
-    private ServiceGroup serviceGroup;
-    @Autowired
-    private JsoupProperties jsoupProperties;
-    @Autowired
-    private PageConnector pageConnector;
-    @Autowired
-    private IndexingProcessor indexingProcessor;
-    @Autowired
-    private LemmaProcessor lemmaProcessor;
-    @Autowired
-    private DataCleaner dataCleanerService;
+    private final ServiceGroup serviceGroup;
+    private final JsoupProperties jsoupProperties;
+    private final PageConnector pageConnector;
+    private final IndexingProcessor indexingProcessor;
+    private final LemmaProcessor lemmaProcessor;
+    private final DataCleaner dataCleanerService;
     public static List<RecursiveAction> indexingTaskList = new ArrayList<>();
     public static boolean indexingIsAllow = false;
     private final ForkJoinPool forkJoinPool = new ForkJoinPool(32);

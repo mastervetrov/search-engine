@@ -1,6 +1,6 @@
 package searchengine.service.search;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import searchengine.dto.search.SearchUnit;
 import searchengine.model.IndexEntity;
@@ -13,15 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class PageFinder {
     private final IndexRepository indexJpaRepository;
     private final PageRepository pageJpaRepository;
-
-    @Autowired
-    public PageFinder(IndexRepository indexJpaRepository, PageRepository pageJpaRepository) {
-        this.indexJpaRepository = indexJpaRepository;
-        this.pageJpaRepository = pageJpaRepository;
-    }
 
     public List<PageEntity> findPageEntityListBySearchUnitList(List<SearchUnit> searchUnitList) {
         if (searchUnitList == null || searchUnitList.isEmpty()) {

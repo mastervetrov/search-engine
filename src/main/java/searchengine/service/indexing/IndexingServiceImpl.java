@@ -1,5 +1,6 @@
 package searchengine.service.indexing;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class IndexingServiceImpl implements IndexingService {
     public static boolean isRunning = false;
     private final IndexingManager manager;
@@ -25,13 +27,6 @@ public class IndexingServiceImpl implements IndexingService {
 
     @Autowired
     private SitesList sitesList;
-
-    @Autowired
-    public IndexingServiceImpl(IndexingManager manager, DataCleaner dataCleaner, SiteService siteService) {
-        this.manager = manager;
-        this.dataCleaner = dataCleaner;
-        this.siteService = siteService;
-    }
 
     /**
      * This method performs preparation and passes a list of entities from SitesList to the IndexingTaskManager

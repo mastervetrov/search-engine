@@ -1,6 +1,6 @@
 package searchengine.service.data;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import searchengine.dto.data.PageDto;
 import searchengine.dto.data.SiteDto;
@@ -11,15 +11,10 @@ import searchengine.repository.PageRepository;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PageServiceImpl implements PageService {
     private final PageRepository pageJpaRepository;
     private final SiteService siteService;
-
-    @Autowired
-    public PageServiceImpl(PageRepository pageJpaRepository, SiteService siteService) {
-        this.pageJpaRepository = pageJpaRepository;
-        this.siteService = siteService;
-    }
 
     @Override
     public void save(PageEntity pageEntity) {

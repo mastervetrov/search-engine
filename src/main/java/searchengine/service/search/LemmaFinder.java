@@ -1,6 +1,6 @@
 package searchengine.service.search;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import searchengine.dto.search.SearchUnit;
 import searchengine.model.LemmaEntity;
@@ -11,16 +11,11 @@ import searchengine.service.text.LemmaProcessor;
 import java.util.*;
 
 @Component
+@RequiredArgsConstructor
 public class LemmaFinder {
     private final int MAXIMUM_LEMMA_FREQUENCY_IN_PERCENTAGE = 100;
     private final LemmaRepository lemmaJpaRepository;
     private final LemmaProcessor lemmaProcessor;
-
-    @Autowired
-    public LemmaFinder(LemmaRepository lemmaJpaRepository, LemmaProcessor lemmaProcessor) {
-        this.lemmaJpaRepository = lemmaJpaRepository;
-        this.lemmaProcessor = lemmaProcessor;
-    }
 
     public List<SearchUnit> createSearchUnitList(String query, List<SiteEntity> targetSiteEntityList) {
 

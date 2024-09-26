@@ -1,7 +1,7 @@
 package searchengine.service.search;
 
+import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import searchengine.dto.search.SearchPage;
 import searchengine.dto.search.SearchSentence;
@@ -17,14 +17,10 @@ import java.util.List;
 import java.util.Locale;
 
 @Component
+@RequiredArgsConstructor
 public class SnippetGenerator {
-    private final String regexWordAndSpaceAllow = "[^a-zA-Zа-яА-ЯёЁ\\s]+";
+    private static final String regexWordAndSpaceAllow = "[^a-zA-Zа-яА-ЯёЁ\\s]+";
     private final LemmaProcessor lemmaProcessor;
-
-    @Autowired
-    public SnippetGenerator(LemmaProcessor lemmaProcessor) {
-        this.lemmaProcessor = lemmaProcessor;
-    }
 
     public List<SearchSnippet> generateSnippetsResponse(List<SearchPage> pageWithIndexesList) {
         List<SearchSnippet> snippetResponseList = new ArrayList<>();

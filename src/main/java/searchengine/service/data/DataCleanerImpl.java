@@ -1,7 +1,7 @@
 package searchengine.service.data;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -17,18 +17,13 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class DataCleanerImpl implements DataCleaner {
-    @Autowired
-    private IndexRepository indexJpaRepository;
-    @Autowired
-    private LemmaRepository lemmaJpaRepository;
-    @Autowired
-    private PageRepository pageJpaRepository;
-    @Autowired
-    private SiteRepository siteJpaRepository;
-    @Autowired
-    private LemmaService lemmaService;
-    @Override
+    private final IndexRepository indexJpaRepository;
+    private final LemmaRepository lemmaJpaRepository;
+    private final PageRepository pageJpaRepository;
+    private final SiteRepository siteJpaRepository;
+    private final LemmaService lemmaService;
     /**
      * clearing and resetting autoincrement tables "index", "lemma", "page", "site"
      */

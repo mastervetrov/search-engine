@@ -1,6 +1,6 @@
 package searchengine.service.data;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import searchengine.dto.data.LemmaDto;
 import searchengine.dto.data.SiteDto;
@@ -11,15 +11,10 @@ import searchengine.repository.LemmaRepository;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LemmaServiceImpl implements LemmaService {
     private final LemmaRepository lemmaJpaRepository;
     private final SiteService siteService;
-
-    @Autowired
-    public LemmaServiceImpl(LemmaRepository lemmaJpaRepository, SiteService siteService) {
-        this.lemmaJpaRepository = lemmaJpaRepository;
-        this.siteService = siteService;
-    }
 
     @Override
     public void save(LemmaEntity lemmaEntity) {
