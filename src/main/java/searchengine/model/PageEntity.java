@@ -22,7 +22,7 @@ public class PageEntity {
     @Column(name = "path", columnDefinition = "VARCHAR(255)", nullable = false)
     String path;
     @Column(name = "code", nullable = false)
-    int code;
+    Integer code;
     @Column(name = "content", columnDefinition = "MEDIUMTEXT", nullable = false)
     String content;
 }

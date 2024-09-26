@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class IndexDto {
-    Integer id;
-    PageDto pageDto;
-    LemmaDto lemmaDto;
-    Float rank;
+    private Integer id;
+    private PageDto pageDto;
+    private LemmaDto lemmaDto;
+    private Float rank;
 }

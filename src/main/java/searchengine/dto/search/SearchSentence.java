@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class SearchSentence {
-    String content;
-    String snippet;
-    int rank = 0;
+    private String content;
+    private String snippet;
+    private Integer rank = 0;
 }

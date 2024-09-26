@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class SearchResponse {
-    private boolean result;
+    private Boolean result;
     private Integer count;
     private List<SearchSnippet> data;
 }

@@ -8,8 +8,8 @@ import java.util.List;
 
 @Data
 public class SearchPage {
-    PageEntity pageEntity;
-    List<IndexEntity> indexEntityList;
-    double absoluteRelevance;
-    double relativeRelevance;
+    private PageEntity pageEntity;
+    private List<IndexEntity> indexEntityList;
+    private Double absoluteRelevance;
+    private Double relativeRelevance;
 }

@@ -3,9 +3,9 @@ import lombok.Data;
 
 @Data
 public class PageDto {
-    Integer id;
-    SiteDto siteDto;
-    String path;
-    Integer code;
-    String content;
+    private Integer id;
+    private SiteDto siteDto;
+    private String path;
+    private Integer code;
+    private String content;
 }

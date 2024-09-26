@@ -8,8 +8,8 @@ import java.util.List;
 
 @Data
 public class SearchUnit {
-    String commonLemma;
-    Double commonRank = 0.0;
-    List<LemmaEntity> lemmaEntities = new ArrayList<>();
+    private String commonLemma;
+    private Double commonRank = 0.0;
+    private List<LemmaEntity> lemmaEntities = new ArrayList<>();
 
 }

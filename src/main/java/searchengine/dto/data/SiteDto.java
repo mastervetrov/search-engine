@@ -7,10 +7,10 @@ import java.time.Instant;
 
 @Data
 public class SiteDto {
-    Integer id;
-    Enum<Status> status;
-    Instant statusTime;
-    String lastError;
-    String url;
-    String name;
+    private Integer id;
+    private Enum<Status> status;
+    private Instant statusTime;
+    private String lastError;
+    private String url;
+    private String name;
 }

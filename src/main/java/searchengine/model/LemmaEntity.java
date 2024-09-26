@@ -19,5 +19,5 @@ public class LemmaEntity {
     @Column(name = "lemma", length = 255, nullable = false)
     String lemma;
     @Column(name = "frequency", nullable = false)
-    int frequency;
+    Integer frequency;
 }
