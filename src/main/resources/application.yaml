@@ -1,0 +1,53 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    username: root
+    password: 80208020
+    url: jdbc:mysql://localhost:3306/search_engine?useSSL=false&requireSSL=false&allowPublicKeyRetrieval=true
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 100
+          batch_versioned_data=true: true
+        order_inserts: true
+        order_updates: true
+    show-sql: false
+
+indexing-settings:
+  sites:
+    - url: https://sendel.ru/
+      name: sendel
+    - url: https://www.abri-kos.ru
+      name: abrikos
+    - url: http://www.playback.ru
+      name: playback
+    - url: https://volochek.life/
+      name: volochek.life
+    - url: http://radiomv.ru/
+      name: radio-moscow
+    - url: https://ipfran.ru/
+      name: ipfran
+    - url: https://dimonvideo.ru/
+      name: dimon
+    - url: https://nikoartgallery.com/
+      name: niko
+    - url: https://et-cetera.ru/mobile/
+      name: et-cetera
+    - url: https://www.lutherancathedral.ru/
+      name: luther
+    - url: https://dombulgakova.ru/
+      name: dom-bulgakova
+    - url: https://www.svetlovka.ru/
+      name: svetlovka
+    - url: https://www.likeservice-tomsk.ru/
+      name: like
+jsoup:
+  user-agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Gecko/20100101 Firefox/88.0"
+  referrer: "https://www.demo.com"
+  sleepPageConnectorBasicVolume: 1000
+  sleepPageConnectorAdditionalVolumeRandomTo: 1000
