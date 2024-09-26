@@ -8,11 +8,11 @@
 - скачать и установить IntelliJ Idea Community Edition (Windows, MacOS)
 - скачать и распаковать проект "searchengine"
 - скачать и установить Docker (https://www.docker.com/)
-- скачать и распаковать запакованный образ Docker "searche_engine_db.tar" ([Google Drive](https://drive.google.com/file/d/1ToouESxjAFfSBOnxbuC-6oGdD9grgtLV/view?usp=sharing))
+- скачать запакованный образ Docker "searche_engine_db.tar" ([Google Drive](https://drive.google.com/file/d/1RVDK1N_-xQdAPhFRtusaZyQiCguNAfHZ/view?usp=sharing))
 
 ### 🐋2. Запуск базы данных
 - запускаем командную строку и переходим в директорию с "searche_engine_db.tar", вводим команду
-  `docker load searche_engine_db`
+  `docker load searche_engine_db.tar`
 - с помощью команды `docker images` удостоверимся, что докер образ с базой данных загружен
 - с помощью команды `docker run -d --name searche_engine_db searche_engine_db` запускаем докер контейнер
 - с помощью команды `docker ps` удостоверимся, что докер контейнер запущен
