@@ -1,8 +1,6 @@
 package searchengine.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import searchengine.dto.search.SearchResponse;
 import searchengine.dto.statistics.StatisticsResponse;
@@ -30,8 +28,8 @@ public class ApiController {
      * StatisticData, TotalStatistics, DetailedStatisticItem
      */
     @GetMapping("/statistics")
-    public ResponseEntity<StatisticsResponse> statistics() {
-        return ResponseEntity.ok(statisticsService.getStatistics());
+    public StatisticsResponse statistics() {
+        return statisticsService.getStatistics();
     }
 
     /**
@@ -44,12 +42,9 @@ public class ApiController {
      * If indexing is activated successfully, the 200 (OK) status is returned with confirmation of revenue receipt.
      */
     @GetMapping("/startIndexing")
-    public ResponseEntity startIndexing() {
-        if (indexingService.isRunning()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMessage("false", "Индексация уже запущена"));
-        }
+    public ResultMessage startIndexing() {
         indexingService.startIndexing();
-        return ResponseEntity.status(HttpStatus.OK).body(new ResultMessage("true"));
+        return new ResultMessage("true");
     }
 
     /**
@@ -62,16 +57,9 @@ public class ApiController {
      * If indexing is stopped successfully, the 200 (OK) status is returned with confirmation of revenue receipt.
      */
     @GetMapping("/stopIndexing")
-    public ResponseEntity stopIndexing() {
-        if (!indexingService.isRunning()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMessage("false", "Индексация не запущена"));
-        }
-        try {
-            indexingService.stopIndexing();
-        } catch (InterruptedException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMessage("false", "Индексация не запущена"));
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(new ResultMessage("true"));
+    public ResultMessage stopIndexing() {
+        indexingService.stopIndexing();
+        return new ResultMessage("true");
     }
 
     /**
@@ -87,15 +75,9 @@ public class ApiController {
      * If adding is successfully, the 200 (OK) status is returned with confirmation ResultMessage("true").
      */
     @PostMapping("/indexPage")
-    public ResponseEntity indexPage(@RequestBody String url) {
-        if (indexingService.isRunning()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMessage("false", "Индексация уже запущена"));
-        }
-        boolean result = indexingService.indexPage(url);
-        if (result == false) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMessage("false", "Данная страница находится за пределами сайтов, указанных в конфигурационном файле"));
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(new ResultMessage("true"));
+    public ResultMessage indexPage(@RequestBody String url) {
+        indexingService.indexPage(url);
+        return new ResultMessage("true");
     }
 
     /**
@@ -110,16 +92,15 @@ public class ApiController {
      * The higher the relevance of the snippet, the higher the snippet will appear in search results.
      */
     @GetMapping("/search")
-    public ResponseEntity search(@RequestParam String query,
+    public SearchResponse search(@RequestParam String query,
                                  @RequestParam(required = false) String site,
                                  @RequestParam(required = false) Integer offset,
                                  @RequestParam(required = false) Integer limit) {
 
         int actualOffset = offsetDefinition(offset);
         int actualLimit = limitDefinition(limit);
-
         SearchResponse response = searchService.search(query, site, actualOffset, actualLimit);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return response;
     }
 
     private Integer offsetDefinition(Integer newOffset) {

@@ -55,6 +55,9 @@ public class RecursiveAction extends java.util.concurrent.RecursiveAction {
 
         if (response != null && response.statusCode() == OK) {
             html = pageConnector.getDocumentByResponse(response);
+            if (html == null) {
+                return;
+            }
             updatePageEntityByHtml(html);
             addChildPages(html);
             HashMap<String, Integer> lemmasHashMap = lemmaProcessor.extractLemmasAndRank(html);

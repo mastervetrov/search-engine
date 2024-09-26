@@ -2,10 +2,12 @@ package searchengine.service.indexing;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import searchengine.config.Site;
 import searchengine.config.SitesList;
+import searchengine.exception.IndexingIsAlreadyRunningException;
+import searchengine.exception.IndexingIsAlreadyStoppedException;
+import searchengine.exception.PageForIndexationIsOutsideTheConfigurationFileException;
 import searchengine.service.data.DataCleaner;
 import searchengine.model.SiteEntity;
 import searchengine.model.Status;
@@ -32,15 +34,21 @@ public class IndexingServiceImpl implements IndexingService {
      * This method performs preparation and passes a list of entities from SitesList to the IndexingTaskManager
      */
     @Override
-    @Async
     public void startIndexing() {
+        if (isRunning) {
+            throw new IndexingIsAlreadyRunningException();
+        }
         isRunning = true;
         List<SiteEntity> siteEntityList = preparation(sitesList);
         manager.start(siteEntityList);
     }
 
     @Override
-    public boolean indexPage(String targetUrl) {
+    public void indexPage(String targetUrl) {
+        if (isRunning) {
+            throw new IndexingIsAlreadyRunningException();
+        }
+        isRunning = true;
         boolean linkAllow = false;
         String decodeRequest = URLDecoder.decode(targetUrl, StandardCharsets.UTF_8);
         String decodeTargetUrl = decodeRequest.replaceAll("url=", "");
@@ -61,9 +69,12 @@ public class IndexingServiceImpl implements IndexingService {
         SiteEntity siteEntity = siteService.findByUrl(targetSite);
         if (linkAllow) {
             preparationByUrl(decodeTargetUrl);
-            return manager.indexPage(siteEntity, decodeTargetUrl);
+            boolean result =  manager.indexPage(siteEntity, decodeTargetUrl);
+            if (result) {
+                return;
+            }
         }
-        return false;
+        throw new PageForIndexationIsOutsideTheConfigurationFileException();
     }
 
     /**
@@ -72,6 +83,9 @@ public class IndexingServiceImpl implements IndexingService {
      */
     @Override
     public void stopIndexing() {
+        if (!isRunning) {
+            throw new IndexingIsAlreadyStoppedException();
+        }
         isRunning = false;
         manager.stop();
     }
@@ -85,6 +99,9 @@ public class IndexingServiceImpl implements IndexingService {
      */
     @Override
     public boolean isRunning() {
+        if (isRunning) {
+            throw new IndexingIsAlreadyRunningException();
+        }
         return isRunning;
     }
 

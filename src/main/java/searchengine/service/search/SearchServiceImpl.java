@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import searchengine.dto.search.*;
+import searchengine.exception.EmptySearchQueryException;
 import searchengine.model.IndexEntity;
 import searchengine.model.PageEntity;
 import searchengine.model.SiteEntity;
@@ -28,6 +29,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public SearchResponse search(String query, String url, Integer offset, Integer limit) {
+        if (query.isEmpty()) {
+            throw new EmptySearchQueryException();
+        }
         SearchResponse searchResponse = new SearchResponse();
         searchResponse.setResult(true);
         searchResponse.setData(new ArrayList<>());
