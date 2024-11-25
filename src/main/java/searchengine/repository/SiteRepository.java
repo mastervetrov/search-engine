@@ -11,17 +11,17 @@ import java.util.List;
 
 @Repository
 public interface SiteRepository extends JpaRepository<SiteEntity, Integer> {
-    SiteEntity findByUrl(String url);
-
     @Modifying
     @Transactional
-    @Query(value = "ALTER TABLE site AUTO_INCREMENT = 1", nativeQuery = true)
-    void resetAutoIncrement();
+    @Query(value = "ALTER SEQUENCE site_id_seq RESTART WITH 1", nativeQuery = true)
+    void resetSequence();
 
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM site", nativeQuery = true)
     void deleteAllCustom();
+
+    SiteEntity findByUrl(String url);
 
     List<SiteEntity> findByIdIn(List<Integer> ids);
 }

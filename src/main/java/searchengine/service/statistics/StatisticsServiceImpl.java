@@ -2,7 +2,6 @@ package searchengine.service.statistics;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import searchengine.config.Site;
 import searchengine.config.SitesList;
@@ -40,6 +39,8 @@ public class StatisticsServiceImpl implements StatisticsService {
             List<DetailedStatisticsItem> detailedStatisticsItems = new ArrayList<>();
             TotalStatistics total = new TotalStatistics();
             total.setSites(sites.getSites().size());
+            total.setPages((int) pageJpaRepository.count());
+            total.setLemmas((int) lemmaJpaRepository.count());
             total.setIndexing(true);
             for (int i = 1; i < siteJpaRepository.count() + 1; i++) {
                 SiteEntity siteEntity = siteJpaRepository.findById(i).orElse(null);
@@ -48,13 +49,10 @@ public class StatisticsServiceImpl implements StatisticsService {
                 }
                 SiteDto siteDto = siteEntityToDto(siteJpaRepository.findByUrl(siteEntity.getUrl()));
                 DetailedStatisticsItem item = new DetailedStatisticsItem();
-
                 setDataForDetailedStatisticItem(item, siteDto);
-                setDataForTotalStatistics(item, total);
-
                 detailedStatisticsItems.add(item);
             }
-
+            setDataForTotalStatistics(total);
             StatisticsResponse response = new StatisticsResponse();
             StatisticsData data = new StatisticsData();
             data.setTotal(total);
@@ -91,9 +89,9 @@ public class StatisticsServiceImpl implements StatisticsService {
         item.setUrl(siteDto.getUrl());
     }
 
-    private void setDataForTotalStatistics(DetailedStatisticsItem item, TotalStatistics total){
-        total.setPages(total.getPages() + item.getPages());
-        total.setLemmas(total.getLemmas() + item.getLemmas());
+    private void setDataForTotalStatistics(TotalStatistics total){
+        total.setPages((int) pageJpaRepository.count());
+        total.setLemmas((int) lemmaJpaRepository.count());
     }
 
     private StatisticsResponse getStatisticResponseIfSiteRepositoryIsEmptyOrNull() {

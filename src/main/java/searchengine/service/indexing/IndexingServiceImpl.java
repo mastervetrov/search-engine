@@ -58,8 +58,6 @@ public class IndexingServiceImpl implements IndexingService {
         String targetSite = null;
         for (Site site : sitesList.getSites()) {
             String siteDomain = Utils.generateDomain(site.getUrl());
-            System.out.println(linkDomain);
-            System.out.println(siteDomain + "\n");
             if (linkDomain.equals(siteDomain)) {
                 linkAllow = true;
                 targetSite = site.getUrl();

@@ -21,11 +21,11 @@ public class ApiController {
     private static final int LIMIT_MIN = 1;
 
     /**
-     * Getting brief summary of indexed sites.
+     * GETTING BRIEF SUMMARY OF INDEXED SITES
      *
-     * @return ResponseEntity
-     * StatisticResponse contains some nested objects:
-     * StatisticData, TotalStatistics, DetailedStatisticItem
+     * @return StatisticsResponse
+     * Contains generalized information
+     * and detailed information about each site
      */
     @GetMapping("/statistics")
     public StatisticsResponse statistics() {
@@ -33,13 +33,11 @@ public class ApiController {
     }
 
     /**
-     * Initiation indexing process.
-     * - case1: error     return ResultMessage("false", "error text")
-     * - case2: success   return ResultMessage("true")
+     * INDEXING LAUNCH
      *
-     * @return ResponseEntity contains the operation execution status and the result message.
-     * If indexing is activated, the 402 status and an error message are returned.
-     * If indexing is activated successfully, the 200 (OK) status is returned with confirmation of revenue receipt.
+     * @return ResulMessage contains "true" with status OK 200.
+     * If indexing is already running, an exception will be thrown "IndexingIsAlreadyRunningException"
+     * and return "ResultMessage("false", "Индексация уже запущена");"
      */
     @GetMapping("/startIndexing")
     public ResultMessage startIndexing() {
@@ -48,13 +46,11 @@ public class ApiController {
     }
 
     /**
-     * Initiation stopping indexing process
-     * - case1: error     return ResultMessage("false", "error text")
-     * - case2: success   return ResultMessage("true")
+     * INDEXING STOPPING
      *
-     * @return ResponseEntity contains the operation execution status and the result message.
-     * If indexing is not activated, the 4029 status and an error message are returned.
-     * If indexing is stopped successfully, the 200 (OK) status is returned with confirmation of revenue receipt.
+     * @return ResulMessage contains "true" with status OK 200.
+     * If indexing is already stopping, an exception will be thrown "IndexingIsAlreadyStoppedException"
+     * and return "ResultMessage("false", "Индексация не запущена");"
      */
     @GetMapping("/stopIndexing")
     public ResultMessage stopIndexing() {
@@ -63,16 +59,23 @@ public class ApiController {
     }
 
     /**
-     * This method accepts url.
-     * Further actions depend on the presence of the url in the database
-     * - case1: database contains target site with specified url. Re-indexing target site
-     * - case2: No target site with the specified URL was found. Adding the new site to the queue for indexing.
+     * SINGLE PAGE INDEXATION
+     *
+     * <p>Further actions depend on the presence of the url in the database</p>
+     * <p> case1: database contains target page with specified url. Re-indexing target site</p>
+     * <p> case2: database not contains target page with specified url
+     * and the page belongs to one of the sites in the configuration file. Indexing target site</p>
      *
      * @param url for check in database
-     * @return ResponseEntity contains the operation execution status and the result message.
-     * If indexing is activated, the 402 status and an error message are returned.
-     * If there is no connection, return ResultMessage ("false")
-     * If adding is successfully, the 200 (OK) status is returned with confirmation ResultMessage("true").
+     * @return ResulMessage contains "true" with status OK 200.
+     *
+     * <p>If indexing is already running,
+     * an exception will be thrown "IndexingIsAlreadyRunningException"
+     * and return "ResultMessage("false", "Индексация уже запущена");"</p>
+     *
+     * <p>If the page goes beyond the boundaries of the configuration file,
+     * an exception is thrown "PageForIndexationIsOutsideTheConfigurationFileExceptionHandle"
+     * and return "ResultMessage("false", "Указанная страница не связана ни с одним сайтом из конфигурации");"</p>
      */
     @PostMapping("/indexPage")
     public ResultMessage indexPage(@RequestBody String url) {
@@ -81,15 +84,19 @@ public class ApiController {
     }
 
     /**
-     * This method finds all pages where all words of the search query are present
+     * SEARCH BY QUERY (GENERAL AND SINGLE MODES)
+     *
+     * <p>This method finds all pages where each word of the search query are present</p>
+     * <p>Implemented search on all sites: GENERAL MODE</p>
+     * <p>Implemented search on one site: SINGLE MODE</p>
      *
      * @param query search query consisting of words separated by space
-     * @param site        optional for search by one site;
-     * @param offset      optional. Offset from 0 for paginated result
-     * @param limit       optional. the number of results to display (optional; if not set, the default value is 20).
-     * @return ResponseEntity contains SearchResponse, contains List SearchSnippet, count results and boolean result.
-     * Each snippet has relevance.
-     * The higher the relevance of the snippet, the higher the snippet will appear in search results.
+     * @param site        optional parameter. FOR SEARCH BY SINGLE MODE
+     * @param offset      optional parameter. OFFSET from 0 for paginated result
+     * @param limit       optional parameter. The number of results to display (if not set, the default value is 20).
+     * @return SearchResponse
+     * If an empty search query is passed, an exception is thrown EmptySearchQueryExceptionHandle
+     * and return ResultMessage("false", "Пустой поисковой запрос");
      */
     @GetMapping("/search")
     public SearchResponse search(@RequestParam String query,

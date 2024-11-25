@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: superuser
+      POSTGRES_PASSWORD: 80208020
+      POSTGRES_DB: search_engine
+    networks:
+      - my-network
+    ports:
+      - "5432:5432"
+  spring-app:
+    image: mega-app
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

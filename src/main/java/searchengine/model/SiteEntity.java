@@ -3,7 +3,6 @@ package searchengine.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
@@ -11,14 +10,14 @@ import java.time.Instant;
 @Table(name = "site")
 @Setter
 @Getter
-@Component
 public class SiteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Integer id;
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    Enum<Status> status;
+    Status status;
     @Column(name = "status_time", nullable = false)
     Instant statusTime;
     @Column(name = "last_error", columnDefinition = "TEXT")

@@ -15,7 +15,6 @@ public class Utils {
         url = urlPath.toString();
         url = url.replaceAll("https://www.", "https://");
         url = url.replaceAll("http://www.", "http://");
-        log.warn("domain: " + url);
         return url;
     }
 

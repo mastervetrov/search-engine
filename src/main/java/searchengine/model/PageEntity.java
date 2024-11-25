@@ -19,10 +19,10 @@ public class PageEntity {
     @ManyToOne
     @JoinColumn(name = "site_id", nullable = false)
     SiteEntity site;
-    @Column(name = "path", columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(name = "path", columnDefinition = "TEXT", nullable = false)
     String path;
     @Column(name = "code", nullable = false)
     Integer code;
-    @Column(name = "content", columnDefinition = "MEDIUMTEXT", nullable = false)
+    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     String content;
 }

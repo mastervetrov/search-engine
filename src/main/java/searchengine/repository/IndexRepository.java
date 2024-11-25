@@ -11,6 +11,16 @@ import java.util.List;
 
 @Repository
 public interface IndexRepository extends JpaRepository<IndexEntity, Integer> {
+    @Modifying
+    @Transactional
+    @Query(value = "ALTER SEQUENCE idx_id_seq RESTART WITH 1", nativeQuery = true)
+    void resetSequence();
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM idx", nativeQuery = true)
+    void deleteAllCustom();
+
     List<IndexEntity> findByPageIdInAndLemmaIdIn(List<Integer> pageEntitiesIds, List<Integer> lemmaEntitiesIds);
 
     List<IndexEntity> findByPageIdInAndLemmaId(List<Integer> pagesIds, Integer lemmasId);
@@ -20,16 +30,6 @@ public interface IndexRepository extends JpaRepository<IndexEntity, Integer> {
     List<IndexEntity> findByIdIn(List<Integer> ids);
 
     List<IndexEntity> findByPageId(Integer id);
-
-    @Modifying
-    @Transactional
-    @Query(value = "ALTER TABLE `index` AUTO_INCREMENT = 1", nativeQuery = true)
-    void resetAutoIncrement();
-
-    @Modifying
-    @Transactional
-    @Query(value = "DELETE FROM `index`", nativeQuery = true)
-    void deleteAllCustom();
 
     void deleteByIdIn(List<Integer> indexIds);
 }

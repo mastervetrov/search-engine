@@ -77,28 +77,28 @@ public class DataCleanerImpl implements DataCleaner {
     @Transactional
     private void indexJpaRepositoryClean() {
         indexJpaRepository.deleteAllCustom();
-        indexJpaRepository.resetAutoIncrement();
+        indexJpaRepository.resetSequence();
         log.warn("index cleaned");
     }
 
     @Transactional
     private void lemmaJpaRepositoryClean() {
         lemmaJpaRepository.deleteAllCustom();
-        lemmaJpaRepository.resetAutoIncrement();
+        lemmaJpaRepository.resetSequence();
         log.warn("lemma cleaned");
     }
 
     @Transactional
     private void pageJpaRepositoryClean() {
         pageJpaRepository.deleteAllCustom();
-        pageJpaRepository.resetAutoIncrement();
+        pageJpaRepository.resetSequence();
         log.warn("page cleaned");
     }
 
     @Transactional
     private void siteJpaRepositoryClean() {
         siteJpaRepository.deleteAllCustom();
-        siteJpaRepository.resetAutoIncrement();
+        siteJpaRepository.resetSequence();
         log.warn("site cleaned");
     }
 }

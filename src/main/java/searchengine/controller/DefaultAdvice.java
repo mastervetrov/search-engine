@@ -11,8 +11,8 @@ import searchengine.exception.IndexingIsAlreadyRunningException;
 import searchengine.exception.IndexingIsAlreadyStoppedException;
 import searchengine.exception.PageForIndexationIsOutsideTheConfigurationFileException;
 
-@ControllerAdvice
 @Slf4j
+@ControllerAdvice
 public class DefaultAdvice {
 
     @ExceptionHandler(IndexingIsAlreadyRunningException.class)
@@ -32,7 +32,7 @@ public class DefaultAdvice {
     @ExceptionHandler(PageForIndexationIsOutsideTheConfigurationFileException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ResultMessage> PageForIndexationIsOutsideTheConfigurationFileExceptionHandle(PageForIndexationIsOutsideTheConfigurationFileException e) {
-        ResultMessage resultMessage = new ResultMessage("false", "Указанная страница не найдена");
+        ResultMessage resultMessage = new ResultMessage("false", "Указанная страница не связана ни с одним сайтом из конфигурации");
         return new ResponseEntity<>(resultMessage, HttpStatus.NOT_FOUND);
     }
 

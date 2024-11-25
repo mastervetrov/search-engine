@@ -1,0 +1,172 @@
+databaseChangeLog:
+  - changeSet:
+      id: enum-creating
+      author: Rumyancev Ivan
+      changes:
+        - sql:
+            sql: "CREATE TYPE status_enum AS ENUM ('INDEXING', 'INDEXED', 'FAILED');"
+            splitStatements: false
+            endDelimiter: ";"
+
+  - changeSet:
+      id: 1
+      author: Rumyancev Ivan
+      changes:
+        - createTable:
+            tableName: idx
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: page_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lemma_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rank
+                  type: real
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: lemma
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: site_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lemma
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: frequency
+                  type: integer
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: page
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: site_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: path
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: code
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content
+                  type: TEXT
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: site
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: status
+                  type: status_enum
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status_time
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_error
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: url
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: idx
+            baseColumnNames: page_id
+            referencedTableName: page
+            referencedColumnNames: id
+            constraintName: fk_idx_page
+
+        - addForeignKeyConstraint:
+            baseTableName: idx
+            baseColumnNames: lemma_id
+            referencedTableName: lemma
+            referencedColumnNames: id
+            constraintName: fk_idx_lemma
+
+        - addForeignKeyConstraint:
+            baseTableName: lemma
+            baseColumnNames: site_id
+            referencedTableName: site
+            referencedColumnNames: id
+            constraintName: fk_lemma_site
+
+        - addForeignKeyConstraint:
+            baseTableName: page
+            baseColumnNames: site_id
+            referencedTableName: site
+            referencedColumnNames: id
+            constraintName: fk_page_site
+
+        - createSequence:
+            sequenceName: idx_id_seq
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: lemma_id_seq
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: page_id_seq
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: site_id_seq
+            incrementBy: 1

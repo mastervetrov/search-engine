@@ -11,22 +11,19 @@ import java.util.List;
 
 @Repository
 public interface PageRepository extends JpaRepository<PageEntity, Integer> {
-
-    List<PageEntity> findByIdIn(List<Integer> ids);
-
-    PageEntity findByPath(String path);
-
-    Long countBySiteId(Long siteId);
-
     @Modifying
     @Transactional
-    @Query(value = "ALTER TABLE page AUTO_INCREMENT = 1", nativeQuery = true)
-    void resetAutoIncrement();
+    @Query(value = "ALTER SEQUENCE page_id_seq RESTART WITH 1", nativeQuery = true)
+    void resetSequence();
 
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM page", nativeQuery = true)
     void deleteAllCustom();
 
-    void deleteByIdIn(List<Integer> pageIds);
+    List<PageEntity> findByIdIn(List<Integer> ids);
+
+    PageEntity findByPath(String path);
+
+    Long countBySiteId(Long siteId);
 }

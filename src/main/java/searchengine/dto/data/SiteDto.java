@@ -8,7 +8,7 @@ import java.time.Instant;
 @Data
 public class SiteDto {
     private Integer id;
-    private Enum<Status> status;
+    private Status status;
     private Instant statusTime;
     private String lastError;
     private String url;

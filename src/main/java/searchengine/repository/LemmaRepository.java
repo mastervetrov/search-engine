@@ -12,6 +12,16 @@ import java.util.List;
 
 @Repository
 public interface LemmaRepository extends JpaRepository<LemmaEntity, Integer> {
+    @Modifying
+    @Transactional
+    @Query(value = "ALTER SEQUENCE lemma_id_seq RESTART WITH 1", nativeQuery = true)
+    void resetSequence();
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM lemma", nativeQuery = true)
+    void deleteAllCustom();
+
     List<LemmaEntity> findBySiteIdInAndLemmaInAndFrequencyLessThanEqual(List<Integer> siteIds, HashSet<String> lemmas, double frequency);
 
     LemmaEntity findByLemmaAndSiteId(String lemma, Integer siteId);
@@ -19,18 +29,4 @@ public interface LemmaRepository extends JpaRepository<LemmaEntity, Integer> {
     List<LemmaEntity> findByIdIn(List<Integer> ids);
 
     Long countBySiteId(Integer id);
-
-    void deleteByIdIn(List<Integer> lemmasIds);
-
-    @Modifying
-    @Transactional
-    @Query(value = "ALTER TABLE lemma AUTO_INCREMENT = 1", nativeQuery = true)
-    void resetAutoIncrement();
-
-    @Modifying
-    @Transactional
-    @Query(value = "DELETE FROM lemma", nativeQuery = true)
-    void deleteAllCustom();
-
-
 }

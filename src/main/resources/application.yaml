@@ -3,20 +3,21 @@ server:
 
 spring:
   datasource:
-    username: root
+    username: superuser
     password: 80208020
-    url: jdbc:mysql://localhost:3306/search_engine?useSSL=false&requireSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:postgresql://postgres:5432/search_engine
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         jdbc:
           batch_size: 100
-          batch_versioned_data=true: true
+          batch_versioned_data: true
         order_inserts: true
         order_updates: true
     show-sql: false
+
 
 indexing-settings:
   sites:
