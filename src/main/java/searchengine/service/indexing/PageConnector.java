@@ -8,7 +8,7 @@ import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 import searchengine.config.JsoupProperties;
 import searchengine.model.SiteEntity;
-import searchengine.model.Status;
+import searchengine.model.StatusString;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -33,7 +33,7 @@ public class PageConnector {
         } catch (IOException e) {
             log.debug("Connection error for site:  " + "\"" + siteEntity.getName() + "\"" + " by url: " + url);
             siteEntity.setStatusTime(Instant.now());
-            siteEntity.setStatus(Status.FAILED);
+            siteEntity.setStatus(StatusString.FAILED);
             siteEntity.setLastError("Превышено ожидание от сервера. Индексацию выполнить не удалось");
         }
         return response;

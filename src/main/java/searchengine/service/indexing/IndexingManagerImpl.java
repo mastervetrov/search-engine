@@ -4,11 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import searchengine.config.JsoupProperties;
-import searchengine.service.data.DataCleaner;
+import searchengine.model.StatusString;
 import searchengine.model.PageEntity;
 import searchengine.model.SiteEntity;
-import searchengine.model.Status;
 import searchengine.service.data.ServiceGroup;
 import searchengine.service.text.LemmaProcessor;
 
@@ -23,11 +21,9 @@ import java.util.concurrent.ForkJoinPool;
 @RequiredArgsConstructor
 public class IndexingManagerImpl implements IndexingManager {
     private final ServiceGroup serviceGroup;
-    private final JsoupProperties jsoupProperties;
     private final PageConnector pageConnector;
     private final IndexingProcessor indexingProcessor;
     private final LemmaProcessor lemmaProcessor;
-    private final DataCleaner dataCleanerService;
     public static List<RecursiveAction> indexingTaskList = new ArrayList<>();
     public static boolean indexingIsAllow = false;
     private final ForkJoinPool forkJoinPool = new ForkJoinPool(32);
@@ -98,7 +94,6 @@ public class IndexingManagerImpl implements IndexingManager {
             informer.setSiteEntity(siteEntity);
             informer.setDomain(Utils.generateDomain(siteEntity.getUrl()));
 
-
             RecursiveAction action = new RecursiveAction(indexingProcessor, lemmaProcessor, pageConnector, informer);
             CompletableFuture<Void> completable = CompletableFuture.runAsync(() -> forkJoinPool.invoke(action));
             completable.thenRun(() -> indexingTaskResultAction(siteEntity));
@@ -117,11 +112,11 @@ public class IndexingManagerImpl implements IndexingManager {
         log.warn("Indexing " + siteEntity.getName() + " complete!");
         siteEntity.setStatusTime(Instant.now());
         if (siteEntity.getLastError().equals("")) {
-            siteEntity.setStatus(Status.INDEXED);
+            siteEntity.setStatus(StatusString.INDEXED);
             siteEntity.setStatusTime(Instant.now());
         }
         if (!siteEntity.getLastError().equals("")) {
-            siteEntity.setStatus(Status.FAILED);
+            siteEntity.setStatus(StatusString.FAILED);
             siteEntity.setStatusTime(Instant.now());
         }
         serviceGroup.getSiteService().save(siteEntity);

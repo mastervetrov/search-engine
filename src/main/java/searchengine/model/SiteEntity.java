@@ -15,9 +15,8 @@ public class SiteEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Integer id;
-    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    Status status;
+    String status;
     @Column(name = "status_time", nullable = false)
     Instant statusTime;
     @Column(name = "last_error", columnDefinition = "TEXT")

@@ -8,9 +8,9 @@ import searchengine.config.SitesList;
 import searchengine.exception.IndexingIsAlreadyRunningException;
 import searchengine.exception.IndexingIsAlreadyStoppedException;
 import searchengine.exception.PageForIndexationIsOutsideTheConfigurationFileException;
+import searchengine.model.StatusString;
 import searchengine.service.data.DataCleaner;
 import searchengine.model.SiteEntity;
-import searchengine.model.Status;
 import searchengine.service.data.SiteService;
 
 import java.net.URLDecoder;
@@ -121,7 +121,7 @@ public class IndexingServiceImpl implements IndexingService {
             SiteEntity siteEntity = new SiteEntity();
             siteEntity.setName(site.getName());
             siteEntity.setUrl(site.getUrl());
-            siteEntity.setStatus(Status.INDEXING);
+            siteEntity.setStatus(StatusString.INDEXING);
             siteEntity.setStatusTime(Instant.now());
             siteEntity.setLastError("");
             siteService.save(siteEntity);

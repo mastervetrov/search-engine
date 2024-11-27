@@ -1,14 +1,5 @@
 databaseChangeLog:
   - changeSet:
-      id: enum-creating
-      author: Rumyancev Ivan
-      changes:
-        - sql:
-            sql: "CREATE TYPE status_enum AS ENUM ('INDEXING', 'INDEXED', 'FAILED');"
-            splitStatements: false
-            endDelimiter: ";"
-
-  - changeSet:
       id: 1
       author: Rumyancev Ivan
       changes:
@@ -103,7 +94,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: status
-                  type: status_enum
+                  type: VARCHAR(20)
                   constraints:
                     nullable: false
               - column:
@@ -154,19 +145,3 @@ databaseChangeLog:
             referencedTableName: site
             referencedColumnNames: id
             constraintName: fk_page_site
-
-        - createSequence:
-            sequenceName: idx_id_seq
-            incrementBy: 1
-
-        - createSequence:
-            sequenceName: lemma_id_seq
-            incrementBy: 1
-
-        - createSequence:
-            sequenceName: page_id_seq
-            incrementBy: 1
-
-        - createSequence:
-            sequenceName: site_id_seq
-            incrementBy: 1

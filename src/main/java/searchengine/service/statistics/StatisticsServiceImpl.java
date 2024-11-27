@@ -11,7 +11,7 @@ import searchengine.dto.statistics.StatisticsData;
 import searchengine.dto.statistics.StatisticsResponse;
 import searchengine.dto.statistics.TotalStatistics;
 import searchengine.model.SiteEntity;
-import searchengine.model.Status;
+import searchengine.model.StatusString;
 import searchengine.repository.LemmaRepository;
 import searchengine.repository.PageRepository;
 import searchengine.repository.SiteRepository;
@@ -35,7 +35,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public StatisticsResponse getStatistics() {
-        if (siteJpaRepository.count() >= 0) {
+        if (siteJpaRepository.count() > 0) {
             List<DetailedStatisticsItem> detailedStatisticsItems = new ArrayList<>();
             TotalStatistics total = new TotalStatistics();
             total.setSites(sites.getSites().size());
@@ -82,7 +82,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         item.setPages(pages.intValue());
         item.setLemmas(lemmas.intValue());
 
-        item.setStatus(siteDto.getStatus().toString());
+        item.setStatus(siteDto.getStatus());
         item.setStatusTime(Instant.now().toEpochMilli());
         item.setError(siteDto.getLastError());
         item.setName(siteDto.getName());
@@ -111,7 +111,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             item.setError("");
             item.setLemmas(0);
             item.setPages(0);
-            item.setStatus(Status.INDEXING.toString());
+            item.setStatus(StatusString.INDEXING);
             item.setUrl(siteOfConfig.getUrl());
             item.setName(siteOfConfig.getName());
             item.setStatusTime(Instant.now().toEpochMilli());

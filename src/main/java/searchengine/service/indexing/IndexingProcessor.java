@@ -18,7 +18,7 @@ public class IndexingProcessor {
     private final IndexService indexService;
 
     public void processing(HashMap<String, Integer> lemmasAndRankHashMapNew, SiteEntity siteEntity, PageEntity pageEntity) {
-        siteEntity.setStatus(Status.INDEXING);
+        siteEntity.setStatus(StatusString.INDEXING);
         siteEntity.setStatusTime(Instant.now());
         siteService.save(siteEntity);
         pageService.save(pageEntity);
@@ -46,7 +46,7 @@ public class IndexingProcessor {
     }
 
     public void stopAction(SiteEntity siteEntity) {
-        siteEntity.setStatus(Status.FAILED);
+        siteEntity.setStatus(StatusString.FAILED);
         siteEntity.setLastError("Индексация остановлена пользователем");
         siteService.save(siteEntity);
     }
