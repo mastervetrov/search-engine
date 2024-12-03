@@ -6,7 +6,7 @@
 ## Запуск
 Ссылка на скачивание архива с образами приложения и базы данных, инструкция внутри 
 
-https://drive.google.com/file/d/1gOkUUe8hgYA3Mr8raQCyE0XnFMoVi_VU/view?usp=drive_link
+https://drive.google.com/file/d/1rJVz3x-SZos_Vsk5JEKqdAvT_Ijztc7N/view?usp=sharing
 
 <img width="415" alt="Скриншот_архива_search_engine" src="https://github.com/user-attachments/assets/0144ba38-54ba-4831-aee4-866ac1a57407">
 
