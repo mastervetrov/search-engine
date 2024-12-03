@@ -29,26 +29,16 @@ indexing-settings:
       name: playback
     - url: https://volochek.life/
       name: volochek.life
-    - url: http://radiomv.ru/
-      name: radio-moscow
     - url: https://ipfran.ru/
       name: ipfran
     - url: https://dimonvideo.ru/
       name: dimon
-    - url: https://nikoartgallery.com/
-      name: niko
-    - url: https://et-cetera.ru/mobile/
-      name: et-cetera
-    - url: https://www.lutherancathedral.ru/
-      name: luther
     - url: https://dombulgakova.ru/
       name: dom-bulgakova
-    - url: https://www.svetlovka.ru/
-      name: svetlovka
     - url: https://www.likeservice-tomsk.ru/
-      name: like
+      name: like-service
 jsoup:
-  user-agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Gecko/20100101 Firefox/88.0"
-  referrer: "https://www.demo.com"
+  user-agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+  referrer: "https://www.example.com"
   sleepPageConnectorBasicVolume: 1000
   sleepPageConnectorAdditionalVolumeRandomTo: 1000

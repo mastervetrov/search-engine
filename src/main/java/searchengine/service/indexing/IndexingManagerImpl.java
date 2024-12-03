@@ -26,13 +26,13 @@ public class IndexingManagerImpl implements IndexingManager {
     private final LemmaProcessor lemmaProcessor;
     public static List<RecursiveAction> indexingTaskList = new ArrayList<>();
     public static boolean indexingIsAllow = false;
-    private final ForkJoinPool forkJoinPool = new ForkJoinPool(32);
+    private final ForkJoinPool forkJoinPool = new ForkJoinPool(8);
 
     @Async
     @Override
     public void start(List<SiteEntity> siteEntityList) {
         indexingIsAllow = true;
-        cleanAll();
+        cleanAllTasks();
         createAndRunTasks(siteEntityList);
     }
 
@@ -41,12 +41,12 @@ public class IndexingManagerImpl implements IndexingManager {
         indexingIsAllow = false;
     }
 
-    public void cleanAll() {
+    @Override
+    public void cleanAllTasks() {
         indexingTaskList.clear();
         RecursiveAction.resetCounter();
         indexingIsAllow = true;
     }
-
 
     @Override
     public boolean indexPage(SiteEntity siteEntity, String url) {
@@ -72,6 +72,8 @@ public class IndexingManagerImpl implements IndexingManager {
         IndexingServiceImpl.isRunning = false;
         return result;
     }
+
+
 
     /**
      * For every siteEntity is being created Informer and PageEntity
@@ -103,10 +105,11 @@ public class IndexingManagerImpl implements IndexingManager {
             completableFuture.join();
         }
         log.warn("INDEXING COMPLETE");
-        cleanAll();
+        cleanAllTasks();
         indexingIsAllow = false;
         IndexingServiceImpl.isRunning = false;
     }
+
 
     private void indexingTaskResultAction(SiteEntity siteEntity) {
         log.warn("Indexing " + siteEntity.getName() + " complete!");

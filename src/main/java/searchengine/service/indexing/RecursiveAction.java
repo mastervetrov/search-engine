@@ -46,7 +46,7 @@ public class RecursiveAction extends java.util.concurrent.RecursiveAction {
             indexingProcessor.stopAction(siteEntity);
             return;
         }
-        log.warn("Обработано задач: " + counter.incrementAndGet() + " current page: " + pageEntity.getPath());
+        log.info("Обработано задач: " + counter.incrementAndGet() + " current page: " + pageEntity.getPath());
         if (!processedUrls.contains(pageEntity.getPath())) {
             processedUrls.add(pageEntity.getPath());
         }

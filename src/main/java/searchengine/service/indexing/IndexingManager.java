@@ -11,7 +11,7 @@ public interface IndexingManager {
 
     void stop();
 
-    void cleanAll();
+    void cleanAllTasks();
 
     boolean indexPage(SiteEntity siteEntity, String url);
 }

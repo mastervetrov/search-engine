@@ -1,4 +1,4 @@
-package searchengine.service.search;
+package searchengine.service.search.finders;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -6,6 +6,4 @@ public interface IndexingService {
     void indexPage(String url);
 
     void stopIndexing();
-
-    boolean isRunning();
 }

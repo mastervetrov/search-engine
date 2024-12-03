@@ -1,4 +1,4 @@
-package searchengine.service.search;
+package searchengine.service.search.finders;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -68,7 +68,7 @@ public class IndexFinder {
         for (SearchPage searchPage : searchPages) {
             searchPage.setRelativeRelevance(searchPage.getAbsoluteRelevance() / maxRelevance);
         }
-        searchPages.sort(Comparator.comparingDouble(SearchPage::getRelativeRelevance));
+        searchPages.sort(Comparator.comparingDouble(SearchPage::getRelativeRelevance).reversed());
         return searchPages;
     }
 

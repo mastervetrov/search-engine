@@ -31,7 +31,11 @@ public class IndexingServiceImpl implements IndexingService {
     private SitesList sitesList;
 
     /**
-     * This method performs preparation and passes a list of entities from SitesList to the IndexingTaskManager
+     * START INDEXING
+     *
+     * <p>This method performs preparation before indexing and execute method start of IndexingManager.
+     * IndexingManager runs indexing tasks for sites specified in resources -> application.yml in parallel using ForkJoinPool</p>
+     * <p>If indexing is already running, throw IndexingIsAlreadyRunningException<p>
      */
     @Override
     public void startIndexing() {
@@ -43,6 +47,16 @@ public class IndexingServiceImpl implements IndexingService {
         manager.start(siteEntityList);
     }
 
+    /**
+     * START INDEXING BY URL (REINDEXING PAGE OR INDEXING PAGE)
+     *
+     * <p>This method performs preparation before indexing</p>
+     * <p>If indexing is already running, throw IndexingIsAlreadyRunningException<p>
+     *
+     * @param targetUrl target page url
+     * CONDITION: the target page must contain the domain of one of the sites specified in application.yml
+     * ADDITIONALLY: method contains code fore decoding url and code for check domain
+     */
     @Override
     public void indexPage(String targetUrl) {
         if (isRunning) {
@@ -53,7 +67,7 @@ public class IndexingServiceImpl implements IndexingService {
         String decodeRequest = URLDecoder.decode(targetUrl, StandardCharsets.UTF_8);
         String decodeTargetUrl = decodeRequest.replaceAll("url=", "");
 
-        manager.cleanAll();
+        manager.cleanAllTasks();
         String linkDomain = Utils.generateDomain(decodeTargetUrl);
         String targetSite = null;
         for (Site site : sitesList.getSites()) {
@@ -76,8 +90,12 @@ public class IndexingServiceImpl implements IndexingService {
     }
 
     /**
-     * This method:
-     * 1) Stops indexing
+     * STOP INDEXING (SOFTLY)
+     *
+     * <p>If indexing is already stopping, throw IndexingIsAlreadyStoppedException<p>
+     *
+     * To stop indexing, necessary switch isRunning to false and call the IndexingManager stop method.
+     * Stopping indexing is called softly with the termination of all tasks.
      */
     @Override
     public void stopIndexing() {
@@ -88,24 +106,9 @@ public class IndexingServiceImpl implements IndexingService {
         manager.stop();
     }
 
-    /**
-     * This method checks for indexation
-     * 1) isRunning = true indexing is running
-     * 2) isRunning = false indexing is not running
-     *
-     * @return boolean isRunning
-     */
-    @Override
-    public boolean isRunning() {
-        if (isRunning) {
-            throw new IndexingIsAlreadyRunningException();
-        }
-        return isRunning;
-    }
-
     private List<SiteEntity> preparation(SitesList sitesList) {
         dataCleaner.cleanAllRepository();
-        manager.cleanAll();
+        manager.cleanAllTasks();
         List<Site> siteListOfConfig = sitesList.getSites();
         List<SiteEntity> siteEntityList = getSiteEntityListAndSaveInDatabase(siteListOfConfig);
         return siteEntityList;

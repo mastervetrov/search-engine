@@ -25,7 +25,9 @@ public class DataCleanerImpl implements DataCleaner {
     private final SiteRepository siteJpaRepository;
     private final LemmaService lemmaService;
     /**
-     * clearing and resetting autoincrement tables "index", "lemma", "page", "site"
+     * CLEARING REPOSITORIES
+     *
+     * <p>Clearing and resetting id(serial) for tables: 'idx', 'lemma', 'page', site</p>
      */
     public void cleanAllRepository() {
         log.warn("CLEAN REPOSITORIES STARTING");
@@ -41,9 +43,11 @@ public class DataCleanerImpl implements DataCleaner {
     }
 
     /**
-     * clearing without resetting autoincrement tables "index", "lemma", "page" by url
+     * CLEARING PAGE INFO BY URL
      *
-     * @param url to remove all related items with the "site" by url
+     * <p>clearing and decreaseFrequency related items with the 'page' without resetting autoincrement tables "index", "lemma", "page" by url</p>
+     *
+     * @param url target page url
      */
     @Override
     @Transactional
@@ -78,7 +82,7 @@ public class DataCleanerImpl implements DataCleaner {
     private void indexJpaRepositoryClean() {
         indexJpaRepository.deleteAllCustom();
         indexJpaRepository.resetSequence();
-        log.warn("index cleaned");
+        log.warn("idx cleaned");
     }
 
     @Transactional
