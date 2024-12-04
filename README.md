@@ -6,9 +6,10 @@
 ## Запуск
 Ссылка на скачивание архива с образами приложения и базы данных, инструкция внутри 
 
-https://drive.google.com/file/d/1rJVz3x-SZos_Vsk5JEKqdAvT_Ijztc7N/view?usp=sharing
+https://drive.google.com/file/d/1SedRLiaJainF7x_OcJayc-LmiKB2Y8L3/view?usp=sharing
 
-<img width="415" alt="Скриншот_архива_search_engine" src="https://github.com/user-attachments/assets/0144ba38-54ba-4831-aee4-866ac1a57407">
+<img width="419" alt="Снимок экрана 2024-12-04 212811" src="https://github.com/user-attachments/assets/539b8260-a2e2-4f7e-9f8d-c6b86baa2619">
+
 
 ## Использование
 ### 📃1. Статистика: DASHBOARD
