@@ -49,10 +49,6 @@ public class LemmaProcessor {
         if (euWords.length > 0) {
             allLemmas.addAll(getLemmasEuWords(euWords));
         }
-
-        for (String str : allLemmas) {
-            System.out.println("Ключевое слово: " + str);
-        }
         return allLemmas;
     }
 

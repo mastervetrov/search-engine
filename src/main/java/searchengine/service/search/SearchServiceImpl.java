@@ -35,8 +35,7 @@ public class SearchServiceImpl implements SearchService {
      * SEARCH
      *
      * <p>The cache stores data from the ONE previous request.
-     * Data is loaded from the cache and processed in portions,
-     * in accordance with the limit</p>
+     * Data is loaded from the cache</p>
      *
      * @param query search request, words separated by spaces (For example "чехол для смартфона")
      * @param url for search in SINGLE_MODE. Must match one of the sites resources -> Application.yml.
@@ -52,8 +51,9 @@ public class SearchServiceImpl implements SearchService {
         }
         SearchResponse searchResponse = cacheManager.checkAndGet(query, url);
         if (searchResponse != null) {
-            List<SearchSnippet> searchSnippetList = snippetGenerator.generateSnippetsResponseUsingTheCache(limit);
+            List<SearchSnippet> searchSnippetList = snippetGenerator.generateSnippetsResponseUsingTheCache(offset, limit);
             searchResponse.setData(searchSnippetList);
+            log.info("A CACHE WAS USED TO SHAPING THE SEARCH RESPONSE");
             return searchResponse;
         }
         cacheManager.cleanCache();
@@ -93,7 +93,7 @@ public class SearchServiceImpl implements SearchService {
         List<PageEntity> allPages = pageFinder.findPageEntityListBySearchUnitList(allSearchUnits);
         List<IndexEntity> allIndexes = indexFinder.findAllIndexEntityBySearchUnitsAndPageEntities(allSearchUnits, allPages);
         List<SearchPage> searchPages = indexFinder.generateSearchPages(allIndexes, allPages);
-        int count = searchPages.size();
+        int count = allPages.size();
         List<SearchSnippet> searchSnippetList = snippetGenerator.generateSnippetsResponse(searchPages, offset, limit);
         searchSnippetList.sort(Comparator.comparing(SearchSnippet::getRelevance).reversed());
 

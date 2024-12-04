@@ -26,7 +26,7 @@ public class IndexingManagerImpl implements IndexingManager {
     private final LemmaProcessor lemmaProcessor;
     public static List<RecursiveAction> indexingTaskList = new ArrayList<>();
     public static boolean indexingIsAllow = false;
-    private final ForkJoinPool forkJoinPool = new ForkJoinPool(8);
+    private final ForkJoinPool forkJoinPool = new ForkJoinPool(16);
 
     @Async
     @Override

@@ -2,8 +2,6 @@ package searchengine.service.search;
 
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import searchengine.dto.search.SearchPage;
 import searchengine.dto.search.SearchSentence;
@@ -22,40 +20,23 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class SnippetGenerator {
     private static final String regexWordAndSpaceAllow = "[^a-zA-Zа-яА-ЯёЁ\\s]+";
-    private static final Logger log = LoggerFactory.getLogger(SnippetGenerator.class);
     private final CacheManager cacheManager;
     private final LemmaProcessor lemmaProcessor;
 
-    public List<SearchSnippet> generateSnippetsResponse(List<SearchPage> searchPageList, Integer offset, Integer limit) {
-        if (searchPageList.size() <= offset + limit) {
+    public List<SearchSnippet> generateSnippetsResponse(List<SearchPage> searchPageListFull, Integer offset, Integer limit) {
+        cacheManager.saveSearchPageList(searchPageListFull);
+        if (searchPageListFull.size() <= offset + limit) {
             cacheManager.cleanCache();
-            return shapingSnippets(searchPageList);
+            return shapingSnippets(searchPageListFull);
         }
-        List<SearchPage> searchPagesPartFirst = searchPageList.subList(offset, offset + limit);
-        List<SearchPage> searchPagesPartNext = searchPageList.subList(offset + limit + 1, searchPageList.size());
-        List<SearchSnippet> generatedSnippets = shapingSnippets(searchPagesPartFirst);
-        cacheManager.saveGeneratedSnippets(generatedSnippets);
-        cacheManager.saveSearchPagesPartNext(searchPagesPartNext);
-        return generatedSnippets;
+        List<SearchPage> currentTargetSearchPages = searchPageListFull.subList(offset, Math.min(offset + limit, searchPageListFull.size()));
+        return shapingSnippets(currentTargetSearchPages);
     }
 
-    public List<SearchSnippet> generateSnippetsResponseUsingTheCache(Integer limit) {
-        List<SearchSnippet> generatedSnippets = cacheManager.getGeneratedSnippets();
-        List<SearchPage> searchPagesPartNew = cacheManager.getSearchPagesPartNext();
-
-        if (searchPagesPartNew.size() <= limit) {
-            generatedSnippets.addAll(shapingSnippets(searchPagesPartNew));
-            return generatedSnippets;
-        }
-
-        List<SearchPage> searchPagesPartFirst = searchPagesPartNew.subList(0, limit);
-        List<SearchPage> searchPagesPartNext = searchPagesPartNew.subList(limit + 1, searchPagesPartNew.size());
-        generatedSnippets.addAll(shapingSnippets(searchPagesPartFirst));
-        cacheManager.saveGeneratedSnippets(shapingSnippets(searchPagesPartFirst));
-        cacheManager.saveSearchPagesPartNext(searchPagesPartNext);
-
-        log.info("Cache was used");
-        return generatedSnippets;
+    public List<SearchSnippet> generateSnippetsResponseUsingTheCache(Integer offset, Integer limit) {
+        List<SearchPage> searchPageListFull = cacheManager.getSearchPageList();
+        List<SearchPage> currentTargetSearchPages = searchPageListFull.subList(offset, Math.min(offset + limit, searchPageListFull.size()));
+        return shapingSnippets(currentTargetSearchPages);
     }
 
     private List<SearchSnippet> shapingSnippets(List<SearchPage> pageWithIndexesList) {

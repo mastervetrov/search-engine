@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import searchengine.dto.search.SearchPage;
 import searchengine.dto.search.SearchResponse;
-import searchengine.dto.search.SearchSnippet;
 import searchengine.service.search.cache.LastSearchCache;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -42,25 +40,16 @@ public class CacheManager {
 
     protected void cleanCache() {
         lastSearchCache.setSearchResponse(new SearchResponse());
-        lastSearchCache.setSearchPagesListNext(new ArrayList<>());
-        lastSearchCache.setGeneratedSnippets(new ArrayList<>());
         lastSearchCache.setQuery(null);
         lastSearchCache.setUrl(null);
     }
 
-    protected void saveSearchPagesPartNext(List<SearchPage> searchPagesPartNext) {
-        lastSearchCache.setSearchPagesListNext(searchPagesPartNext);
+
+    protected void saveSearchPageList(List<SearchPage> searchPageList) {
+        lastSearchCache.setSearchPagesList(searchPageList);
     }
 
-    protected void saveGeneratedSnippets(List<SearchSnippet> generatedSnippets) {
-        lastSearchCache.setGeneratedSnippets(generatedSnippets);
-    }
-
-    protected List<SearchPage> getSearchPagesPartNext() {
-        return lastSearchCache.getSearchPagesListNext();
-    }
-
-    protected List<SearchSnippet> getGeneratedSnippets() {
-        return lastSearchCache.getGeneratedSnippets();
+    protected List<SearchPage> getSearchPageList() {
+        return lastSearchCache.getSearchPagesList();
     }
 }
